@@ -6,12 +6,12 @@ import variational_autoencoder as vae
 
 if __name__ == "__main__":
     # MNIST digit dataset
-    # train_ds, test_ds = get_data.digit_mnist()
-    # sample = next(iter(train_ds))[0]
+    train_ds, test_ds = get_data.digit_mnist()
+    sample = next(iter(train_ds))[0]
 
     # MNIST fashion dataset
-    train_ds, test_ds = get_data.fashion_mnist(for_vae=True)
-    sample = next(iter(train_ds))[0]
+    # train_ds, test_ds = get_data.fashion_mnist(for_vae=True)
+    # sample = next(iter(train_ds))[0]
 
     latent_dim = 2  # set the dimensionality of the latent space to a plane for visualization later
     autoencoder = vae.CVAE(latent_dim=latent_dim, sample=sample)
@@ -38,4 +38,7 @@ if __name__ == "__main__":
             mean(autoencoder.compute_loss(test_x))  # update_state method of tf.keras.metrics.Mean()
         elbo = -mean.result()  # Computes the weighted average of the elements added via update_state method
         print(f"Epoch: {epoch}, Test set ELBO: {elbo}, time elapse for current epoch: {end_time - start_time}")
+
         plots.generate_and_save_cvae_images(autoencoder, epoch, test_sample)
+        plots.cvae_gif()
+        plots.plot_cvae_latent_space(model=autoencoder, n=10, image_size=sample.shape[0])

@@ -79,3 +79,5 @@ def plot_cvae_latent_space(model: vae.CVAE, n: int, image_size: int):
     plt.imshow(image, cmap="Greys_r")
     plt.axis("Off")
     plt.show()
+    fp = os.path.join(os.getcwd(), "images", "latent_space_grid.png")
+    plt.savefig(fp)
